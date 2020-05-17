@@ -45,8 +45,6 @@ namespace Agni
                     OpenPort(port);
 
                     port.WriteLine(data);
-
-                    ClosePort(port);
                 } catch(Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
@@ -117,9 +115,11 @@ namespace Agni
                 if (isArduino(readResult))
                 {
                     arduinos.Add(port);
+                } else
+                {
+                    ClosePort(port);
                 }
             }
-            ClosePort(port);
         }
 
         private bool isArduino(ReadResult readResult)

@@ -9,41 +9,59 @@ namespace Agni
 {
     class AgniMonitor
     {
-        private void GetHardwareTemperature(IHardware hardware)
+
+        Computer computer;
+        HardwareUpdateVisitor updateVisitor;
+
+        readonly List<HardwareType> VALID_HARDWARE_TYPES = new List<HardwareType> { HardwareType.CPU, HardwareType.GpuNvidia,  HardwareType.GpuAti };
+
+        public AgniMonitor()
+        {
+            computer = new Computer();
+            updateVisitor = new HardwareUpdateVisitor();
+
+            computer.Open();
+            computer.CPUEnabled = true;
+            computer.GPUEnabled = true;
+        }
+
+        private string GetHardwareTemperature(IHardware hardware)
         {
             for (int j = 0; j < hardware.Sensors.Length; j++)
             {
                 if (hardware.Sensors[j].SensorType == SensorType.Temperature)
                 {
-                    Console.WriteLine(hardware.Sensors[j].Name + ":" + hardware.Sensors[j].Value.ToString() + "\r");
+                    Console.WriteLine(hardware.Sensors[j].Name + ": " + hardware.Sensors[j].Value.ToString() + "\r");
+
+                    // Terrible hack but it works.. we just want the package temp for CPU and this won't affect GPU temps so it'll work
+                    if (!hardware.Sensors[j].Name.Contains("#"))
+                    {
+                        // This is the temperature
+                        return hardware.Sensors[j].Value.ToString();
+                    }
                 }
             }
+
+            // Default to returning two zeros since we always expect two digits
+            return "00";
         }
 
-        public void GetSystemInfo()
+        public string GetHardwareTemperatures()
         {
-            HardwareUpdateVisitor updateVisitor = new HardwareUpdateVisitor();
-            Computer computer = new Computer();
-            computer.Open();
-            computer.CPUEnabled = true;
-            computer.GPUEnabled = true;
             computer.Accept(updateVisitor);
-            for (int i = 0; i < computer.Hardware.Length; i++)
+            String result = "";
+
+            // The arduino expects CPU to be first so we rely on the ordering of our valid hardware types list
+            foreach(HardwareType hardwareType in VALID_HARDWARE_TYPES)
             {
-                if (computer.Hardware[i].HardwareType == HardwareType.CPU)
+                IHardware currentHardware = Array.Find(computer.Hardware, hardware => hardware.HardwareType.Equals(hardwareType));
+                if(currentHardware != null)
                 {
-                    GetHardwareTemperature(computer.Hardware[i]);
-                }
-                else if (computer.Hardware[i].HardwareType == HardwareType.GpuNvidia)
-                {
-                    GetHardwareTemperature(computer.Hardware[i]);
-                }
-                else if (computer.Hardware[i].HardwareType == HardwareType.GpuAti)
-                {
-                    GetHardwareTemperature(computer.Hardware[i]);
+                    result += GetHardwareTemperature(currentHardware);
                 }
             }
-            computer.Close();
+
+            return result;
         }
     }
 }

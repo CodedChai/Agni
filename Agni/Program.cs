@@ -21,8 +21,7 @@ namespace Agni
             {
                 Console.ReadLine();
 
-                agniMonitor.GetSystemInfo();
-                arduinoController.WriteDataToArduinos("6969");
+                arduinoController.WriteDataToArduinos(agniMonitor.GetHardwareTemperatures());
             }
         }
 
