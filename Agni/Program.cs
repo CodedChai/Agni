@@ -19,7 +19,7 @@ namespace Agni
 
             while (true)
             {
-                Console.ReadLine();
+                Thread.Sleep(1000);
 
                 arduinoController.WriteDataToArduinos(agniMonitor.GetHardwareTemperatures());
             }
