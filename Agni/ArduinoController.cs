@@ -37,8 +37,8 @@ namespace Agni
 
         public void WriteDataToArduinos(String data)
         {
-
-            foreach (SerialPort port in arduinos)
+            // https://stackoverflow.com/questions/604831/collection-was-modified-enumeration-operation-may-not-execute
+            foreach (SerialPort port in arduinos.ToArray())
             {
                 try
                 {
@@ -74,7 +74,6 @@ namespace Agni
 
         private void DisconnectArduino(SerialPort port)
         {
-            port.Close();
             arduinos.Remove(port);
         }
 

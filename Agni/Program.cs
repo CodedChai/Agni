@@ -17,11 +17,19 @@ namespace Agni
 
             arduinoController.ConnectToAllArduinos();
 
+            int updateConnectedArduinoCycle = 0;
+
             while (true)
             {
                 Thread.Sleep(1000);
-
                 arduinoController.WriteDataToArduinos(agniMonitor.GetHardwareTemperatures());
+
+                if(updateConnectedArduinoCycle == 0)
+                {
+                    arduinoController.ConnectToAllArduinos();
+                }
+
+                updateConnectedArduinoCycle = (updateConnectedArduinoCycle + 1) % 10;
             }
         }
 
