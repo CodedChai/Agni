@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agni", "Agni\Agni.csproj", "{C902C4E7-A75E-4223-BA6B-A7AD734835C4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{29FBC571-A7D1-4816-B079-061C508C63A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{C902C4E7-A75E-4223-BA6B-A7AD734835C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C902C4E7-A75E-4223-BA6B-A7AD734835C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C902C4E7-A75E-4223-BA6B-A7AD734835C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29FBC571-A7D1-4816-B079-061C508C63A3}.Debug|Any CPU.ActiveCfg = Debug
+		{29FBC571-A7D1-4816-B079-061C508C63A3}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
